@@ -16,6 +16,18 @@ use App\Http\Controllers\MainController;
 |
 */
 
+// Route per la home
 Route::get('/', [MainController::class, 'home']) -> name('home');
-Route::get('/saint/{id}', [MainController::class, 'show']) -> name('show');
+
+// Route per info singolo santo
+Route::get('/saint/show/{id}', [MainController::class, 'saintShow']) -> name('saint.show');
+
+// Route per eliminare un santo
 Route::get('/saint/destroy/{id}', [MainController::class, 'saintDestroy']) -> name('saint.destroy');
+
+// Route per creare un santo
+Route::get('/saint/create', [MainController::class, 'saintCreate']) -> name('saint.create');
+
+// Route per i dati del form
+Route::post('/saint/store', [MainController::class, 'saintStore']) -> name('saint.store');
+
