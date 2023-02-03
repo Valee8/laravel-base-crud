@@ -8,17 +8,17 @@ use App\Models\Saint;
 
 class MainController extends Controller
 {
+
+    // Mostra lista santi ordinati per creazione
     public function home() {
-        $saints = Saint::all();
+        $saints = Saint::orderBy('created_at', 'DESC') -> get();
 
-        $data = [
-            'saints' => $saints
-        ];
-
-        return view('pages.home', $data);
+        return view('pages.home', compact('saints'));
     }
 
-    public function show($id) {
+
+    // Mostra informazioni singolo santo
+    public function saintShow($id) {
 
         $saint = Saint::find($id);
 
@@ -26,10 +26,12 @@ class MainController extends Controller
             'saint' => $saint
         ];
 
-        return view('pages.saint', $data);
+        return view('pages.saintShow', $data);
 
     }
 
+
+    // Elimina un santo
     public function saintDestroy($id) {
 
         $saint = Saint::find($id);
@@ -38,5 +40,28 @@ class MainController extends Controller
 
         return redirect() -> route('home');
 
+    }
+
+    // Crea un nuovo santo
+    public function saintCreate() {
+
+        return view('pages.saintCreate');
+
+    }
+
+    // Salva dati del form di un nuovo santo
+    public function saintStore(Request $request) {
+        $data = $request -> all();
+
+        $saint = new Saint();
+        
+        $saint -> name = $data['name'];
+        $saint -> birth_place = $data['birth_place'];
+        $saint -> blessing_date = $data['blessing_date'];
+        $saint -> number_of_miracles = $data['number_of_miracles'];
+
+        $saint -> save();
+
+        return redirect() -> route('home');
     }
 }
