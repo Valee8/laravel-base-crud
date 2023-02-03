@@ -28,7 +28,15 @@ class MainController extends Controller
 
         return view('pages.saint', $data);
 
+    }
 
+    public function saintDestroy($id) {
+
+        $saint = Saint::find($id);
+
+        $saint -> delete();
+
+        return redirect() -> route('home');
 
     }
 }
